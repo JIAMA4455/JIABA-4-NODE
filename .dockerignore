@@ -1,0 +1,33 @@
+# Зависимости
+node_modules
+npm-debug.log
+
+# Сборка
+build
+dist
+
+# Логи
+logs
+*.log
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Тесты
+coverage
+.nyc_output
+
+# Временные файлы
+*.swp
+*.swo
+.DS_Store 
