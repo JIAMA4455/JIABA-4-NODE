@@ -1,6 +1,6 @@
 # JIABA-4-NODE
 
-REST сервис для управления задачами, реализованный на Express.js.
+REST сервис для управления задачами, реализованный на Express.js и TypeScript.
 
 ## Установка
 
@@ -10,15 +10,49 @@ npm install
 
 ## Запуск
 
+### Локальный запуск
+
 ```bash
 # Запуск в режиме разработки
 npm run dev
 
 # Запуск в production режиме
+npm run build
 npm start
 ```
 
 Сервер запускается на порту 4000.
+
+### Запуск с Docker
+
+1. Установите Docker и Docker Compose
+2. Создайте файл `.env` в корневой директории проекта:
+```env
+# База данных
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=tasks_db
+
+# PgAdmin
+PGADMIN_EMAIL=admin@admin.com
+PGADMIN_PASSWORD=admin
+```
+
+3. Запустите приложение:
+```bash
+docker-compose up -d
+```
+
+4. Доступ к сервисам:
+   - REST API: http://localhost:4000
+   - PgAdmin: http://localhost:5050
+     - Email: admin@admin.com
+     - Password: admin
+
+5. Остановка приложения:
+```bash
+docker-compose down
+```
 
 ## API Endpoints
 
@@ -65,14 +99,17 @@ DELETE /api/tasks/:id
 
 ## Структура проекта
 
-- `src/index.js` - основной файл приложения
+- `src/index.ts` - основной файл приложения
 - `src/tasks/` - модуль задач
-  - `task.model.js` - модель задачи
-  - `task.router.js` - маршрутизация
-  - `task.controller.js` - обработка HTTP запросов
-  - `task.service.js` - бизнес-логика
-  - `task.memory.repository.js` - хранение данных в памяти
-  - `task.validator.js` - валидация данных
+  - `types.ts` - типы и интерфейсы
+  - `task.model.ts` - модель задачи
+  - `task.router.ts` - маршрутизация
+  - `task.controller.ts` - обработка HTTP запросов
+  - `task.service.ts` - бизнес-логика
+  - `task.memory.repository.ts` - хранение данных в памяти
+  - `task.validator.ts` - валидация данных
+- `src/logger/` - модуль логирования
+  - `logger.ts` - конфигурация и middleware для логирования
 
 ## Особенности
 
@@ -80,3 +117,5 @@ DELETE /api/tasks/:id
 - Поддерживается формат JSON для запросов и ответов
 - Реализована валидация входных данных
 - Обработка ошибок с соответствующими HTTP статусами
+- Логирование запросов и ошибок
+- Docker-контейнеризация с PostgreSQL и PgAdmin
