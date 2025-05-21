@@ -32,6 +32,8 @@ npm start
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=tasks_db
+DB_HOST=postgres
+DB_PORT=5432
 
 # PgAdmin
 PGADMIN_EMAIL=admin@admin.com
@@ -52,6 +54,23 @@ docker-compose up -d
 5. Остановка приложения:
 ```bash
 docker-compose down
+```
+
+### Миграции базы данных
+
+1. Генерация миграции:
+```bash
+npm run migration:generate -- src/migrations/CreateTasksTable
+```
+
+2. Запуск миграций:
+```bash
+npm run migration:run
+```
+
+3. Откат последней миграции:
+```bash
+npm run migration:revert
 ```
 
 ## API Endpoints
@@ -100,20 +119,24 @@ DELETE /api/tasks/:id
 ## Структура проекта
 
 - `src/index.ts` - основной файл приложения
+- `src/config/` - конфигурация приложения
+  - `data-source.ts` - конфигурация TypeORM
 - `src/tasks/` - модуль задач
-  - `types.ts` - типы и интерфейсы
   - `task.model.ts` - модель задачи
   - `task.router.ts` - маршрутизация
   - `task.controller.ts` - обработка HTTP запросов
   - `task.service.ts` - бизнес-логика
-  - `task.memory.repository.ts` - хранение данных в памяти
+  - `task.repository.ts` - работа с базой данных
   - `task.validator.ts` - валидация данных
 - `src/logger/` - модуль логирования
   - `logger.ts` - конфигурация и middleware для логирования
+- `src/migrations/` - миграции базы данных
 
 ## Особенности
 
-- Данные хранятся в памяти (in-memory)
+- PostgreSQL в качестве базы данных
+- TypeORM для работы с базой данных
+- Миграции для управления схемой базы данных
 - Поддерживается формат JSON для запросов и ответов
 - Реализована валидация входных данных
 - Обработка ошибок с соответствующими HTTP статусами

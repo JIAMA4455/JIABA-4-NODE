@@ -1,75 +1,45 @@
-import { Task, TaskStatus, TaskPriority } from './types';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export class TaskModel {
-  private id: string;
-  private title: string;
-  private description: string;
-  private status: TaskStatus;
-  private priority: TaskPriority;
-  private createdAt: Date;
-  private updatedAt: Date;
+export enum TaskStatus {
+  PENDING = 'pending',
+  IN_PROGRESS = 'in-progress',
+  DONE = 'done'
+}
 
-  constructor(
-    id: string,
-    title: string,
-    description: string,
-    status: TaskStatus = 'pending',
-    priority: TaskPriority = 'medium'
-  ) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.status = status;
-    this.priority = priority;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
-  }
+export enum TaskPriority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high'
+}
 
-  public getId(): string {
-    return this.id;
-  }
+@Entity('tasks')
+export class Task {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  public getTitle(): string {
-    return this.title;
-  }
+  @Column()
+  title: string;
 
-  public getDescription(): string {
-    return this.description;
-  }
+  @Column({ nullable: true })
+  description: string;
 
-  public getStatus(): TaskStatus {
-    return this.status;
-  }
+  @Column({
+    type: 'enum',
+    enum: TaskStatus,
+    default: TaskStatus.PENDING
+  })
+  status: TaskStatus;
 
-  public getPriority(): TaskPriority {
-    return this.priority;
-  }
+  @Column({
+    type: 'enum',
+    enum: TaskPriority,
+    default: TaskPriority.MEDIUM
+  })
+  priority: TaskPriority;
 
-  public getCreatedAt(): Date {
-    return this.createdAt;
-  }
+  @CreateDateColumn()
+  createdAt: Date;
 
-  public getUpdatedAt(): Date {
-    return this.updatedAt;
-  }
-
-  public update(title?: string, description?: string, status?: TaskStatus, priority?: TaskPriority): void {
-    if (title) this.title = title;
-    if (description) this.description = description;
-    if (status) this.status = status;
-    if (priority) this.priority = priority;
-    this.updatedAt = new Date();
-  }
-
-  public toJSON(): Task {
-    return {
-      id: this.id,
-      title: this.title,
-      description: this.description,
-      status: this.status,
-      priority: this.priority,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
-    };
-  }
+  @UpdateDateColumn()
+  updatedAt: Date;
 } 
