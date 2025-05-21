@@ -1,0 +1,13 @@
+{
+  "name": "jiaba-3-node",
+  "version": "1.0.0",
+  "description": "CLI инструмент для решения задач",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "commander": "^11.1.0"
+  }
+} 
